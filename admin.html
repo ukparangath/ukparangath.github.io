@@ -1,114 +1,72 @@
 
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Admin Panel - UK Parangath</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body {
-            background: #111;
-            color: #eee;
-            font-family: monospace;
-            padding: 2rem;
-        }
-        .login, .panel { max-width: 600px; margin: auto; display: none; }
-        input, textarea, button {
-            width: 100%; padding: 0.5rem; margin: 0.5rem 0;
-            background: #222; color: #eee; border: 1px solid #444;
-        }
-        .panel { display: none; }
-        h2 { border-bottom: 1px solid #444; padding-bottom: 0.5rem; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>UKP Admin Panel</title>
+  <link rel="manifest" href="manifest.json">
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+      .then(() => console.log("Service Worker Registered"));
+    }
+  </script>
+  <style>
+    body {
+      font-family: monospace;
+      background-color: #111;
+      color: #eee;
+      margin: 0;
+      padding: 2em;
+    }
+    h1, h2 {
+      color: #ffcc00;
+    }
+    label, input, textarea, button {
+      display: block;
+      width: 100%;
+      margin-bottom: 1em;
+      font-size: 1em;
+    }
+    input, textarea {
+      background: #222;
+      border: 1px solid #555;
+      color: #fff;
+      padding: 0.5em;
+    }
+    button {
+      background: #ffcc00;
+      color: #000;
+      border: none;
+      padding: 0.7em;
+      cursor: pointer;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+    }
+  </style>
 </head>
 <body>
-
-<div class="login" id="loginBox">
-    <h2>Admin Login</h2>
-    <input type="text" id="username" placeholder="Username">
-    <input type="password" id="password" placeholder="Password">
-    <button onclick="login()">Login</button>
-    <p id="loginError" style="color: red;"></p>
-</div>
-
-<div class="panel" id="adminPanel">
-    <h2>Welcome, UKP</h2>
-
-    <h3>New Blog Post</h3>
-    <input type="text" id="blogTitle" placeholder="Blog Title">
-    <textarea id="blogContent" rows="10" placeholder="Write your blog here..."></textarea>
-    <button onclick="postBlog()">Publish Blog</button>
-
-    <h3>Update About Me</h3>
-    <textarea id="aboutMe" rows="5"></textarea>
-    <button onclick="updateSection('about.html', document.getElementById('aboutMe').value)">Update About</button>
-
-    <h3>Update Skills</h3>
-    <textarea id="skills" rows="5"></textarea>
-    <button onclick="updateSection('skills.html', document.getElementById('skills').value)">Update Skills</button>
-
-    <h3>Update Contact</h3>
-    <textarea id="contact" rows="5"></textarea>
-    <button onclick="updateSection('contact.html', document.getElementById('contact').value)">Update Contact</button>
-</div>
-
-<script>
-    const USERNAME = "ukparangath2006";
-    const PASSWORD = "ukp1922";
-    const TOKEN = "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";
-    const REPO = "ukparangath.github.io";
-    const OWNER = "ukparangath";
-
-    document.getElementById("loginBox").style.display = "block";
-
-    function login() {
-        const user = document.getElementById("username").value;
-        const pass = document.getElementById("password").value;
-        if (user === USERNAME && pass === PASSWORD) {
-            document.getElementById("loginBox").style.display = "none";
-            document.getElementById("adminPanel").style.display = "block";
-        } else {
-            document.getElementById("loginError").innerText = "Invalid login!";
-        }
-    }
-
-    async function postBlog() {
-        const title = document.getElementById("blogTitle").value;
-        const content = document.getElementById("blogContent").value;
-        const filename = `blogs/${Date.now()}_${title.replace(/\s+/g, "_")}.md`;
-        await commitToGitHub(filename, content, `New blog: ${title}`);
-        alert("Blog posted!");
-    }
-
-    async function updateSection(path, content) {
-        await commitToGitHub(path, content, `Update ${path}`);
-        alert(`${path} updated!`);
-    }
-
-    async function commitToGitHub(path, content, message) {
-        const api = `https://api.github.com/repos/${OWNER}/${REPO}/contents/${path}`;
-        const getRes = await fetch(api, {
-            headers: { Authorization: `token ${TOKEN}` }
-        });
-        const resJson = await getRes.json();
-        const sha = resJson.sha || null;
-
-        const body = {
-            message: message,
-            content: btoa(unescape(encodeURIComponent(content))),
-            sha: sha
-        };
-
-        await fetch(api, {
-            method: "PUT",
-            headers: {
-                Authorization: `token ${TOKEN}`,
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(body)
-        });
-    }
-</script>
-
+  <div class="container">
+    <h1>UKP Admin Panel</h1>
+    <form>
+      <h2>Post a Blog</h2>
+      <label for="title">Title</label>
+      <input type="text" id="title" placeholder="Enter blog title"/>
+      <label for="content">Content</label>
+      <textarea id="content" rows="10" placeholder="Write your blog here..."></textarea>
+      <button type="submit">Save Blog Locally</button>
+    </form>
+    <form>
+      <h2>Edit Website Info</h2>
+      <label for="name">Name</label>
+      <input type="text" id="name" placeholder="Your name"/>
+      <label for="bio">Bio</label>
+      <textarea id="bio" rows="5" placeholder="Short bio..."></textarea>
+      <button type="submit">Update Info</button>
+    </form>
+  </div>
 </body>
 </html>
