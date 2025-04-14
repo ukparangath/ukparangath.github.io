@@ -3,66 +3,101 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin Login - UKP</title>
+  <title>UKP Admin Login</title>
   <style>
     body {
-      font-family: sans-serif;
-      background: #000;
-      color: #fff;
+      font-family: monospace;
+      background-color: #111;
+      color: #eee;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
       margin: 0;
     }
-    .login-box {
-      background: #1c1c1c;
-      padding: 2rem;
+    .login-container {
+      background-color: #222;
+      padding: 2em;
       border-radius: 10px;
-      box-shadow: 0 0 10px rgba(255,255,255,0.1);
+      box-shadow: 0 0 10px #000;
+      width: 90%;
+      max-width: 400px;
     }
-    .login-box h2 {
+    h2 {
+      color: #ffcc00;
       text-align: center;
+      margin-bottom: 1em;
     }
-    input {
+    input[type="text"],
+    input[type="password"] {
       width: 100%;
-      padding: 0.8rem;
-      margin: 0.7rem 0;
-      border: none;
-      border-radius: 5px;
-      font-size: 1rem;
+      padding: 0.7em;
+      margin-bottom: 1em;
+      background-color: #333;
+      border: 1px solid #555;
+      color: #fff;
+      font-size: 1em;
+    }
+    label {
+      display: block;
+      font-size: 0.9em;
+      margin-bottom: 1em;
     }
     button {
       width: 100%;
-      padding: 0.8rem;
-      background: #ffd700;
-      border: none;
+      padding: 0.7em;
+      background-color: #ffcc00;
+      color: #000;
       font-weight: bold;
-      font-size: 1rem;
+      border: none;
       cursor: pointer;
+      font-size: 1em;
+    }
+    .error {
+      color: red;
+      text-align: center;
+      margin-bottom: 1em;
     }
   </style>
 </head>
 <body>
-  <div class="login-box">
-    <h2>Admin Login</h2>
-    <input type="text" id="username" placeholder="Username" />
-    <input type="password" id="password" placeholder="Password" />
+  <div class="login-container">
+    <h2>UKP Admin Login</h2>
+    <div id="error" class="error"></div>
+    <input type="text" id="username" placeholder="Username" required />
+    <input type="password" id="password" placeholder="Password" required />
+    <label>
+      <input type="checkbox" id="togglePassword" /> Show Password
+    </label>
     <button onclick="login()">Login</button>
   </div>
 
   <script>
-    function login() {
-      const username = document.getElementById("username").value;
-      const password = document.getElementById("password").value;
+    const usernameInput = document.getElementById("username");
+    const passwordInput = document.getElementById("password");
+    const togglePassword = document.getElementById("togglePassword");
 
-      if (username === "admin" && password === "ukp2025") {
+    function login() {
+      const username = usernameInput.value.trim();
+      const password = passwordInput.value;
+
+      if (username === "ukparangath" && password === "ukp1922") {
         localStorage.setItem("authenticated", "true");
-        window.location.href = "dashboard.html";
+        window.location.href = "admin.html";
       } else {
-        alert("Invalid credentials");
+        document.getElementById("error").innerText = "Invalid credentials. Try again.";
       }
     }
+
+    togglePassword.addEventListener("change", () => {
+      passwordInput.type = togglePassword.checked ? "text" : "password";
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        login();
+      }
+    });
   </script>
 </body>
 </html>
