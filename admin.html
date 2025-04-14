@@ -131,5 +131,35 @@
 }
     loadBlogs();
   </script>
+  <script>
+  let deferredPrompt;
+  const installBtn = document.createElement("button");
+  installBtn.textContent = "Install UKP Admin Panel";
+  installBtn.style.marginTop = "1em";
+  installBtn.style.background = "#007bff";
+  installBtn.style.color = "white";
+  installBtn.style.border = "none";
+  installBtn.style.padding = "0.7em";
+  installBtn.style.cursor = "pointer";
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    document.body.appendChild(installBtn);
+  });
+
+  installBtn.addEventListener('click', () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then(choiceResult => {
+        if (choiceResult.outcome === 'accepted') {
+          console.log('User installed the app');
+        }
+        deferredPrompt = null;
+        installBtn.remove();
+      });
+    }
+  });
+</script>
 </body>
 </html>
