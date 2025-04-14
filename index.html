@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Welcome - UKP</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #000;
+      color: #fff;
+      font-family: monospace;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .welcome-text {
+      text-align: center;
+      font-size: 2em;
+      line-height: 1.5em;
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(-10px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+  <script>
+    setTimeout(() => {
+      window.location.href = "home.html";
+    }, 5000);
+  </script>
+</head>
+<body>
+  <div class="welcome-text">
+    <div>Welcome to the</div>
+    <div><strong>World of</strong></div>
+    <div><strong>Unnikrishnan Parangath</strong></div>
+  </div>
+</body>
+</html>
