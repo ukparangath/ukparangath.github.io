@@ -159,6 +159,12 @@
   <footer>
     <p>&copy; 2025 Unnikrishnan Parangath. All rights reserved.</p>
   </footer>
-
+  
+<script>
+  function toggleBlog(element) {
+    const content = element.nextElementSibling.nextElementSibling;
+    content.style.display = (content.style.display === 'none') ? 'block' : 'none';
+  }
+</script>
 </body>
 </html>
