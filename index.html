@@ -3,47 +3,64 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Welcome</title>
+  <title>Welcome | Unnikrishnan Parangath</title>
   <style>
-    * {
+    body {
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      height: 100vh;
-      background-color: black;
+      background-color: #000;
+      color: #fff;
       display: flex;
       justify-content: center;
       align-items: center;
-      color: white;
-      font-family: 'Courier New', Courier, monospace;
+      height: 100vh;
+      font-family: 'Courier New', monospace;
     }
-    .typewriter {
-      overflow: hidden;
-      border-right: .15em solid orange;
-      white-space: nowrap;
-      letter-spacing: .1em;
-      animation: typing 3s steps(40, end), blink-caret .75s step-end infinite;
-      font-size: 1.6rem;
-      max-width: 90%;
-    }
-    @keyframes typing {
-      from { width: 0 }
-      to { width: 100% }
-    }
-    @keyframes blink-caret {
-      from, to { border-color: transparent }
-      50% { border-color: orange; }
+    .typing {
+      text-align: center;
+      white-space: pre;
+      font-size: 1.8rem;
+      line-height: 2.5rem;
     }
   </style>
 </head>
 <body>
-  <div class="typewriter">Welcome to the world of Unnikrishnan Parangath</div>
+  <div class="typing" id="welcomeText"></div>
+
   <script>
-    setTimeout(() => {
-      window.location.href = 'home.html';
-    }, 4500);
+    const lines = [
+      "Welcome to the",
+      "      World of",
+      "  Unnikrishnan",
+      "    Parangath"
+    ];
+
+    let currentLine = 0;
+    let currentChar = 0;
+    let display = "";
+
+    function typeLine() {
+      if (currentLine < lines.length) {
+        const line = lines[currentLine];
+        if (currentChar <= line.length) {
+          document.getElementById("welcomeText").innerHTML = display + line.slice(0, currentChar) + "_";
+          currentChar++;
+          setTimeout(typeLine, 100);
+        } else {
+          display += line + "\n";
+          currentChar = 0;
+          currentLine++;
+          setTimeout(typeLine, 300);
+        }
+      } else {
+        document.getElementById("welcomeText").innerHTML = display;
+        setTimeout(() => {
+          window.location.href = "home.html";
+        }, 2000); // wait 2 more seconds after finish
+      }
+    }
+
+    typeLine();
   </script>
 </body>
 </html>
