@@ -1,24 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>UKP Admin Panel</title>
   <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="logo.png" type="image/png">
+  <meta name="theme-color" content="#111111">
   <script>
-    // Redirect to login if not authenticated
-    if (localStorage.getItem("authenticated") !== "true") {
-      window.location.href = "login.html";
-    }
-
-    // Register service worker
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('service-worker.js')
         .then(() => console.log("Service Worker Registered"));
     }
+    // Authentication check
+    if (localStorage.getItem("authenticated") !== "true") {
+      window.location.href = "login.html";
+    }
   </script>
   <style>
-    /* your CSS stays unchanged */
+    /* Your existing CSS styles */
   </style>
 </head>
     body {
