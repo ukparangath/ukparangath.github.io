@@ -4,47 +4,61 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>UKP Blog</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="style.css">
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(() => console.log("Service Worker Registered"));
+    }
+  </script>
   <style>
     body {
-      font-family: monospace;
       background-color: #111;
       color: #eee;
+      font-family: monospace;
       margin: 0;
-      padding: 2em;
+      padding: 1em;
     }
     h1 {
-      text-align: center;
       color: #ffcc00;
+      text-align: center;
+      margin-bottom: 1em;
     }
     .blog-entry {
-      background: #222;
-      border: 1px solid #555;
+      background-color: #222;
+      border: 1px solid #444;
+      margin-bottom: 1.5em;
       padding: 1em;
-      margin: 1em 0;
     }
     .blog-entry h2 {
       color: #ffcc00;
-      margin-top: 0;
+    }
+    .blog-entry p {
+      white-space: pre-wrap;
     }
   </style>
 </head>
 <body>
-  <h1>Unnikrishnan Parangath - Blog</h1>
-  <div id="blogs"></div>
+  <h1>UKP Blog</h1>
+  <div id="blogContainer"></div>
 
   <script>
     async function loadBlogs() {
-      const response = await fetch("blogs.json");
-      const blogs = await response.json();
-      const blogContainer = document.getElementById("blogs");
+      const res = await fetch("blogs.json");
+      const blogs = await res.json();
+      const container = document.getElementById("blogContainer");
+
       blogs.forEach(blog => {
-        const div = document.createElement("div");
-        div.className = "blog-entry";
-        div.innerHTML = `<h2>${blog.title}</h2><p>${blog.content}</p>`;
-        blogContainer.appendChild(div);
+        const entry = document.createElement("div");
+        entry.className = "blog-entry";
+        entry.innerHTML = `
+          <h2>${blog.title}</h2>
+          <p>${blog.content}</p>
+        `;
+        container.appendChild(entry);
       });
     }
+
     loadBlogs();
   </script>
 </body>
